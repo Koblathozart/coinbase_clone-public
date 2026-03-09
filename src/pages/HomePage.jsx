@@ -221,10 +221,29 @@ function HomePage() {
 			</section>
 
 			<section className="cta-section">
-				<div className="container cta-panel">
-					<h2>Take control of your money.</h2>
-					<p>Start your portfolio today and discover crypto.</p>
-					<Button type="button">Sign up</Button>
+				<div className="container cta-layout">
+					<div className="cta-copy">
+						<h2>Take control of your money</h2>
+						<p>Start your portfolio today and discover crypto</p>
+						<div className="cta-form">
+							<input
+								type="email"
+								placeholder="satoshi@nakamoto.com"
+								aria-label="Email address"
+							/>
+							<Button type="button">Sign up</Button>
+						</div>
+					</div>
+
+					<div className="cta-art" aria-hidden="true">
+						<div className="cta-bubble cta-cb">C</div>
+						<div className="cta-bubble cta-algo">A</div>
+						<div className="cta-bubble cta-arrow">→</div>
+						<div className="cta-bubble cta-btc">₿</div>
+						<div className="cta-bubble cta-doge">Ð</div>
+						<div className="cta-bubble cta-ada">◌</div>
+						<div className="cta-bubble cta-eth">◇</div>
+					</div>
 				</div>
 			</section>
 		</main>
