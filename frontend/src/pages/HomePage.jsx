@@ -46,6 +46,27 @@ function HomePage() {
 	const [marketBoard, setMarketBoard] = useState(marketBoardSeed)
 
 	useEffect(() => {
+		const fetchMarketData = async () => {
+            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+            try {
+                const response = await fetch(`${API_URL}/crypto`)
+                const result = await response.json()
+                if (result.success && result.data.length > 0) {
+                    // Map the backend DB schema to the presentation format expected by CryptoRow
+                    const formattedCryptos = result.data.slice(0, 6).map(c => ({
+                        ...c,
+                        iconClass: c.symbol.toLowerCase()
+                    }))
+                    setMarketBoard(formattedCryptos)
+                }
+            } catch (err) {
+                console.error("Failed to fetch cryptos, falling back to dummy state", err)
+            }
+        }
+        
+        fetchMarketData()
+
+		// Keep ticker randomized for visual flair since ticker API wasn't required
 		const timer = setInterval(() => {
 			setTicker((prev) =>
 				prev.map((item) => {
@@ -62,26 +83,6 @@ function HomePage() {
 		}, 2200)
 
 		return () => clearInterval(timer)
-	}, [])
-
-	useEffect(() => {
-		const boardTimer = setInterval(() => {
-			setMarketBoard((prev) =>
-				prev.map((asset) => {
-					const direction = Math.random() > 0.38 ? 1 : -1
-					const priceDelta = (Math.random() * 0.0025 + 0.0002) * asset.price * direction
-					const nextPrice = Math.max(0.01, asset.price + priceDelta)
-					const nextChange = asset.change + (Math.random() - 0.5) * 0.65
-					return {
-						...asset,
-						price: Number(nextPrice.toFixed(2)),
-						change: Number(nextChange.toFixed(2)),
-					}
-				}),
-			)
-		}, 2400)
-
-		return () => clearInterval(boardTimer)
 	}, [])
 
 	const tickerItems = useMemo(() => [...ticker, ...ticker], [ticker])
@@ -103,7 +104,7 @@ function HomePage() {
 								placeholder="satoshi@nakamoto.com"
 								aria-label="Email address"
 							/>
-							<Button type="button">Sign up</Button>
+							<Button to="/signup">Sign up</Button>
 						</div>
 					</div>
 				</div>
@@ -129,7 +130,7 @@ function HomePage() {
 					<div className="explore-copy">
 						<h2>Explore crypto like Bitcoin, Ethereum, and Dogecoin.</h2>
 						<p>Simply and securely buy, sell, and manage hundreds of cryptocurrencies.</p>
-						<button className="explore-btn" type="button">See more assets</button>
+						<Link to="/explore" className="explore-btn" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>See more assets</Link>
 					</div>
 
 					<aside className="explore-panel" aria-label="Tradable assets">
@@ -160,7 +161,7 @@ function HomePage() {
 							Advanced charting, real-time order books, and deep liquidity in one
 							institutional-grade experience.
 						</p>
-						<Button type="button">Start trading</Button>
+						<Button to="/explore">Start trading</Button>
 					</div>
 				</div>
 			</section>
@@ -174,7 +175,7 @@ function HomePage() {
 							One membership gives you zero-fee trading, boosted staking rewards, and
 							priority support.
 						</p>
-						<Button type="button">Claim free trial</Button>
+						<Button to="/signup">Claim free trial</Button>
 					</div>
 					<div className="split-visual membership">
 						<img src={coinbaseOneImage} alt="Coinbase One membership visual" />
@@ -194,7 +195,7 @@ function HomePage() {
 							Trade, discover, create, and chat in one social-finance experience built
 							for the onchain generation.
 						</p>
-						<Button type="button">Learn more</Button>
+						<Button to="/learn">Learn more</Button>
 					</div>
 				</div>
 			</section>
@@ -231,7 +232,7 @@ function HomePage() {
 								placeholder="satoshi@nakamoto.com"
 								aria-label="Email address"
 							/>
-							<Button type="button">Sign up</Button>
+							<Button to="/signup">Sign up</Button>
 						</div>
 					</div>
 

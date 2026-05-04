@@ -1,6 +1,8 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import coinbaseLogoNavigation from '../../assets/coinbaseLogoNavigation-4.svg'
 import Button from '../common/Button'
+import { AuthContext } from '../../contexts/AuthContext'
 
 const navMenus = [
 	{
@@ -111,24 +113,24 @@ function MegaMenu({ label, to, left, right, disableMenuLink }) {
 				<div className="mega-columns">
 					<div className="mega-column">
 						{left.map((item) => (
-							<a key={item.title} href="#" className="mega-item" onClick={disableMenuLink}>
+							<Link key={item.title} to="/explore" className="mega-item">
 								<span className="mega-icon" aria-hidden="true">{item.icon}</span>
 								<span className="mega-copy">
 									<strong>{item.title}</strong>
 									<small>{item.text}</small>
 								</span>
-							</a>
+							</Link>
 						))}
 					</div>
 					<div className="mega-column">
 						{right.map((item) => (
-							<a key={item.title} href="#" className="mega-item" onClick={disableMenuLink}>
+							<Link key={item.title} to="/learn" className="mega-item">
 								<span className="mega-icon" aria-hidden="true">{item.icon}</span>
 								<span className="mega-copy">
 									<strong>{item.title}</strong>
 									<small>{item.text}</small>
 								</span>
-							</a>
+							</Link>
 						))}
 					</div>
 					<aside className="mega-promo" aria-hidden="true">
@@ -137,7 +139,7 @@ function MegaMenu({ label, to, left, right, disableMenuLink }) {
 						</div>
 						<p>System Update 2025</p>
 						<h4>The next chapter of Coinbase. Live on X 12/17.</h4>
-						<a href="#" onClick={disableMenuLink}>Learn more</a>
+						<Link to="/explore">Learn more</Link>
 					</aside>
 				</div>
 			</div>
@@ -146,7 +148,12 @@ function MegaMenu({ label, to, left, right, disableMenuLink }) {
 }
 
 function Navbar() {
+	const { user, logout } = useContext(AuthContext)
 	const disableMenuLink = (event) => event.preventDefault()
+	
+	const handleLogout = async () => {
+		await logout()
+	}
 
 	return (
 		<header className="site-header">
@@ -180,8 +187,19 @@ function Navbar() {
 							<path d="m15.8 14.8 1.1-.1.7.8-.2 1.1-1 .5-.9-.7z" />
 						</svg>
 					</button>
-					<Button variant="ghost" to="/signin">Sign in</Button>
-					<Button to="/signup">Sign up</Button>
+					
+					{user ? (
+						<>
+							<span style={{ marginRight: '1rem', color: '#666' }}>Hi, {user.name}</span>
+							<Button to="/profile" variant="ghost">Profile</Button>
+							<Button onClick={handleLogout}>Log Out</Button>
+						</>
+					) : (
+						<>
+							<Button variant="ghost" to="/signin">Sign in</Button>
+							<Button to="/signup">Sign up</Button>
+						</>
+					)}
 				</div>
 			</div>
 		</header>
