@@ -11,7 +11,7 @@ export const authAPI = {
     })
 
     const response = await fetch(`${API_URL}/auth/register?${params}`, {
-      method: 'GET',
+      method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'

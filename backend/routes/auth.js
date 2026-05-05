@@ -13,8 +13,8 @@ import { authMiddleware } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
 // Traditional endpoints (keeping for backward compatibility)
-router.get('/register', register)
-router.get('/login', login)
+router.post('/register', register)
+router.post('/login', login)
 router.post('/logout', logout)
 router.get('/profile', authMiddleware, getProfile)
 
