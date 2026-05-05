@@ -971,8 +971,13 @@ a {
 	margin-top: 26px;
 }
 
-.footer-link-disabled {
-	cursor: default;
+.footer-link {
+	cursor: pointer;
+	transition: color 150ms ease;
+}
+
+.footer-link:hover {
+	color: var(--brand);
 }
 
 .footer-social {
