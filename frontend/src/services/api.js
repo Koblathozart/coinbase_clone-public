@@ -1,5 +1,5 @@
 // services/api.js - Centralized API calls
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://koblathozart-crypto-app-backend.onrender.com'
 
 // Auth API calls
 export const authAPI = {
@@ -9,7 +9,7 @@ export const authAPI = {
       email,
       password
     })
-    
+
     const response = await fetch(`${API_URL}/auth/register?${params}`, {
       method: 'GET',
       credentials: 'include',
@@ -31,7 +31,7 @@ export const authAPI = {
       email,
       password
     })
-    
+
     const response = await fetch(`${API_URL}/auth/login?${params}`, {
       method: 'GET',
       credentials: 'include',
